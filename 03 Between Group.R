@@ -77,3 +77,5 @@ build_and_lm <- function (df) {
 }
 
 summary(build_and_lm(antibodies.imputed))
+summary(build_and_lm(perc_inhibition_orig_variant.imputed))
+summary(build_and_lm(perc_inhibition_delta_variant.imputed))

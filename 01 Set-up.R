@@ -10,7 +10,9 @@ BiocManager::install(
     
     "Amelia", "psych", "dyplr", "mice", "missForest", "mvnmle", "naniar", "misty", "Hmisc",
     
-    "lmtest"
+    "lmtest",
+    
+    "nlme"
   ), 
   force = TRUE, 
   dependencies = TRUE, 
@@ -20,6 +22,7 @@ BiocManager::install(
 library(utf8, lib.loc = package_loc); library(tibble, lib.loc = package_loc); library(readxl, lib.loc = package_loc)
 library(Amelia, lib.loc = package_loc); library(psych, lib.loc = package_loc); library(backports, lib.loc = package_loc); library(mice, lib.loc = package_loc); library(missForest, lib.loc = package_loc); library(withr, lib.loc = package_loc); library(ggplot2, lib.loc = package_loc); library(dplyr, lib.loc = package_loc); library(cowplot, lib.loc = package_loc); library(mvnmle, lib.loc = package_loc); library(naniar, lib.loc = package_loc); library(misty, lib.loc = package_loc); library(Hmisc, lib.loc = package_loc)
 library(lmtest, lib.loc = package_loc); 
+library(nlme, lib.loc = package_loc); 
 
 # Part 2: Reading values
 data <- read_excel(paste(datadir, "abachab final results.xlsx", sep = "/"), sheet = "Consolidated")
@@ -75,3 +78,6 @@ draw_histograms(antibodies, "IgG antibodies", "IgG")
 draw_histograms(perc_inhibition_orig_variant, "%Inhibition Original Variant", "% inhibition")
 # %Inhibition delta variant
 draw_histograms(perc_inhibition_delta_variant, "%Inhibition Delta Variant", "% inhibition")
+
+# Part 6: Get vaccine values
+data.vaccine <- read_excel(paste(datadir, "AbACHAB MASTERLIST.xlsx", sep = "/"), sheet = "Complete (Cleaned)")
