@@ -6,36 +6,39 @@ library(BiocManager, lib.loc = package_loc)
 
 BiocManager::install(
   c(
-    "withr", "ggplot2", "tidyverse", 
+    "withr", "farver", "ggplot2", "tidyverse", 
     
-    "Amelia", "psych", "dyplr", "mice", "missForest", "mvnmle", "naniar", "misty", "Hmisc",
+    "Amelia", "psych", "mice", "missForest", "mvnmle", "naniar", "misty", "latticeExtra", "data.table", "Hmisc",
     
     "lmtest",
     
-    "nlme"
+    "nlme", "caret"
   ), 
   force = TRUE, 
   dependencies = TRUE, 
   lib = package_loc
 )
 
+install.packages(c("dyplr", "farver", "glmmTMB"), lib = package_loc, dependencies = TRUE)
+
 library(utf8, lib.loc = package_loc); library(tibble, lib.loc = package_loc); library(readxl, lib.loc = package_loc)
-library(Amelia, lib.loc = package_loc); library(psych, lib.loc = package_loc); library(backports, lib.loc = package_loc); library(mice, lib.loc = package_loc); library(missForest, lib.loc = package_loc); library(withr, lib.loc = package_loc); library(ggplot2, lib.loc = package_loc); library(dplyr, lib.loc = package_loc); library(cowplot, lib.loc = package_loc); library(mvnmle, lib.loc = package_loc); library(naniar, lib.loc = package_loc); library(misty, lib.loc = package_loc); library(Hmisc, lib.loc = package_loc)
+library(RColorBrewer, lib.loc = package_loc); library(farver, lib.loc = package_loc);  library(ggplot2, lib.loc = package_loc);  library(cowplot, lib.loc = package_loc); 
+library(Amelia, lib.loc = package_loc); library(psych, lib.loc = package_loc); library(backports, lib.loc = package_loc); library(mice, lib.loc = package_loc); library(missForest, lib.loc = package_loc); library(withr, lib.loc = package_loc); library(mvnmle, lib.loc = package_loc); library(naniar, lib.loc = package_loc); library(misty, lib.loc = package_loc); library(latticeExtra, lib.loc = package_loc); library(Hmisc, lib.loc = package_loc)
 library(lmtest, lib.loc = package_loc); 
-library(nlme, lib.loc = package_loc); 
+library(caret, lib.loc = package_loc); library(nlme, lib.loc = package_loc); library(glmmTMB, lib.loc = package_loc); library(farver, lib.loc = package_loc); library(dplyr, lib.loc = package_loc); 
 
 # Part 2: Reading values
 data <- read_excel(paste(datadir, "abachab final results.xlsx", sep = "/"), sheet = "Consolidated")
 
 # Part 3: Separating dataset into their own bins
-antibodies <- data[, c("1st Extraction (Day 0)", "2nd Extraction (Day 14)", "3rd Extraction (Day 30)", "4th Extraction (Day 90)", "5th Extraction (Day 180)")]
-colnames(antibodies) <- c("Day 0", "Day 14", "Day 30", "Day 90", "Day 180")
+antibodies <- data[, c("code", "1st Extraction (Day 0)", "2nd Extraction (Day 14)", "3rd Extraction (Day 30)", "4th Extraction (Day 90)", "5th Extraction (Day 180)")]
+colnames(antibodies) <- c("code", "Day 0", "Day 14", "Day 30", "Day 90", "Day 180")
 antibodies <- mutate_all(antibodies, as.numeric)
-perc_inhibition_orig_variant <- data[, c("1st Extraction (Day 0)2", "2nd Extraction (Day 14)3", "3rd Extraction (Day 30)4", "4th Extraction (Day 90)5", "5th Extraction (Day 180)2")]
-colnames(perc_inhibition_orig_variant) <- c("Day 0", "Day 14", "Day 30", "Day 90", "Day 180")
+perc_inhibition_orig_variant <- data[, c("code", "1st Extraction (Day 0)2", "2nd Extraction (Day 14)3", "3rd Extraction (Day 30)4", "4th Extraction (Day 90)5", "5th Extraction (Day 180)2")]
+colnames(perc_inhibition_orig_variant) <- c("code", "Day 0", "Day 14", "Day 30", "Day 90", "Day 180")
 perc_inhibition_orig_variant <- mutate_all(perc_inhibition_orig_variant, as.numeric)
-perc_inhibition_delta_variant <- data[, c("1st Extraction DELTA", "2nd Extraction DELTA", "3rd Extraction DELTA", "4th Extraction DELTA", "5th Extraction DELTA")]
-colnames(perc_inhibition_delta_variant) <- c("Day 0", "Day 14", "Day 30", "Day 90", "Day 180")
+perc_inhibition_delta_variant <- data[, c("code", "1st Extraction DELTA", "2nd Extraction DELTA", "3rd Extraction DELTA", "4th Extraction DELTA", "5th Extraction DELTA")]
+colnames(perc_inhibition_delta_variant) <- c("code", "Day 0", "Day 14", "Day 30", "Day 90", "Day 180")
 perc_inhibition_delta_variant <- mutate_all(perc_inhibition_delta_variant, as.numeric)
 
 # Part 4: Describe datasets
@@ -81,3 +84,6 @@ draw_histograms(perc_inhibition_delta_variant, "%Inhibition Delta Variant", "% i
 
 # Part 6: Get vaccine values
 data.vaccine <- read_excel(paste(datadir, "AbACHAB MASTERLIST.xlsx", sep = "/"), sheet = "Complete (Cleaned)")
+data.vaccine <- as.data.frame(data.vaccine)
+data.vaccine <- mutate_all()
+colnames(data.vaccine) <- c("patient", "dose_1_vaccine", "dose_2_vaccine")

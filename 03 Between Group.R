@@ -79,3 +79,22 @@ build_and_lm <- function (df) {
 summary(build_and_lm(antibodies.imputed))
 summary(build_and_lm(perc_inhibition_orig_variant.imputed))
 summary(build_and_lm(perc_inhibition_delta_variant.imputed))
+
+
+# Part 2: Build dataset into one dataframe
+build_dataset <- function (df) {
+  return(data.frame(
+    patient = as.factor(rep(df$code, 5)),
+    time = as.factor(c(rep("Day 0", nrow(df)), rep("Day 14", nrow(df)), rep("Day 30", nrow(df)), rep("Day 90", nrow(df)), rep("Day 180", nrow(df)))),
+    values = c(df$`Day 0`, df$`Day 14`, df$`Day 30`, df$`Day 90`, df$`Day 180`)
+  ))
+}
+
+antibodies.single <- build_dataset(antibodies)
+perc_inhibition_orig_variant.single <- build_dataset(perc_inhibition_orig_variant)
+perc_inhibition_delta_variant.single <- build_dataset(perc_inhibition_delta_variant)
+
+# Combine dataset of percentage and antibody count and the vaccine received
+antibodies.dose <- merge(x = antibodies.single, y = data.vaccine, by = "patient", all.x = TRUE)
+perc_inhibition_orig_variant.dose <- merge(x = perc_inhibition_orig_variant.single, y = data.vaccine, by = "patient", all.x = TRUE)
+perc_inhibition_delta_variant.dose <- merge(x = perc_inhibition_delta_variant.single, y = data.vaccine, by = "patient", all.x = TRUE)
