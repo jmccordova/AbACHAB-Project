@@ -3,11 +3,14 @@ a <- na.omit(antibodies.dose)
 '%ni%' <- Negate('%in%')
 a <- upSample(x = a[,colnames(a) %ni% "time"],
                      y = a$time)
-a$values <- scale(a$values)
+a$values <- scale(a$values)[, 1]
 a$time <- factor(a$Class)
 a$Class <- NULL
 a$dose_1_vaccine <- factor(a$dose_1_vaccine)
 a$dose_2_vaccine <- factor(a$dose_2_vaccine)
+
+antibodies.aggregated <- a
+antibodies.aggregated$datatype <- rep('antibodies', nrow(antibodies.aggregated))
 
 # AR1 Matrix
 fit.ar1 <- glmmTMB(values ~ ar1(time + 0 | patient), 
@@ -63,11 +66,14 @@ a <- na.omit(perc_inhibition_orig_variant.dose)
 '%ni%' <- Negate('%in%')
 a <- upSample(x = a[,colnames(a) %ni% "time"],
               y = a$time)
-a$values <- scale(a$values)
+a$values <- scale(a$values)[, 1]
 a$time <- factor(a$Class)
 a$Class <- NULL
 a$dose_1_vaccine <- factor(a$dose_1_vaccine)
 a$dose_2_vaccine <- factor(a$dose_2_vaccine)
+
+perc_inhibition_orig_variant.aggregated <- a
+perc_inhibition_orig_variant.aggregated$datatype <- rep('inhib_orig', nrow(perc_inhibition_orig_variant.aggregated))
 
 # AR1 Matrix
 fit.ar1 <- glmmTMB(values ~ ar1(time + 0 | patient), 
@@ -123,11 +129,14 @@ a <- na.omit(perc_inhibition_delta_variant.dose)
 '%ni%' <- Negate('%in%')
 a <- upSample(x = a[,colnames(a) %ni% "time"],
               y = a$time)
-a$values <- scale(a$values)
+a$values <- scale(a$values)[, 1]
 a$time <- factor(a$Class)
 a$Class <- NULL
 a$dose_1_vaccine <- factor(a$dose_1_vaccine)
 a$dose_2_vaccine <- factor(a$dose_2_vaccine)
+
+perc_inhibition_delta_variant.aggregated <- a
+perc_inhibition_delta_variant.aggregated$datatype <- rep('inhib_delta', nrow(perc_inhibition_delta_variant.aggregated))
 
 # AR1 Matrix
 fit.ar1 <- glmmTMB(values ~ ar1(time + 0 | patient), 
@@ -174,4 +183,4 @@ VarCorr(fit.cs)
 anova(fit.ar1, fit.toep, fit.us, fit.cs)
 
 # CS, TOEP, and US have all converged with US having the lowest AIC. Thus, we can reject Ho.
-# The pairwise correlations between the patient's %inhibition for the Wuhan strain values differ every time the sample was taken from the patient.
+# The pairwise correlations between the patient's %inhibition for the Delta strain values differ every time the sample was taken from the patient.

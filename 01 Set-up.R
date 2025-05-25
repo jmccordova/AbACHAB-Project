@@ -12,7 +12,9 @@ BiocManager::install(
     
     "lmtest",
     
-    "nlme", "caret"
+    "lme4", "caret",
+    
+    "emmeans", "pbkrtest", "labeling"
   ), 
   force = TRUE, 
   dependencies = TRUE, 
@@ -25,7 +27,8 @@ library(utf8, lib.loc = package_loc); library(tibble, lib.loc = package_loc); li
 library(RColorBrewer, lib.loc = package_loc); library(farver, lib.loc = package_loc);  library(ggplot2, lib.loc = package_loc);  library(cowplot, lib.loc = package_loc); 
 library(Amelia, lib.loc = package_loc); library(psych, lib.loc = package_loc); library(backports, lib.loc = package_loc); library(mice, lib.loc = package_loc); library(missForest, lib.loc = package_loc); library(withr, lib.loc = package_loc); library(mvnmle, lib.loc = package_loc); library(naniar, lib.loc = package_loc); library(misty, lib.loc = package_loc); library(latticeExtra, lib.loc = package_loc); library(Hmisc, lib.loc = package_loc)
 library(lmtest, lib.loc = package_loc); 
-library(caret, lib.loc = package_loc); library(nlme, lib.loc = package_loc); library(glmmTMB, lib.loc = package_loc); library(farver, lib.loc = package_loc); library(dplyr, lib.loc = package_loc); 
+library(caret, lib.loc = package_loc); library(glmmTMB, lib.loc = package_loc); library(farver, lib.loc = package_loc); library(dplyr, lib.loc = package_loc); 
+library(emmeans, lib.loc = package_loc); library(lme4, lib.loc = package_loc); library(pbkrtest, lib.loc = package_loc); library(parameters, lib.loc = package_loc); library(labeling, lib.loc = package_loc); 
 
 # Part 2: Reading values
 data <- read_excel(paste(datadir, "abachab final results.xlsx", sep = "/"), sheet = "Consolidated")
